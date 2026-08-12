@@ -41,9 +41,9 @@
       'Fishy':['Gem','Holo','Quack'], 'Striker':['Cube','Gem','Quack'], 'Aura':['Cube','Holo','Quack'], 'Boss':['Gem','Holo','Quack'],
       'Grim':['Quack'], 'Air':['Cube','Gem','Quack'], 'Seven':['Cube','Gem','Quack'],
       'Pollo':['Cube','Gold','Gummy','Galaxy','Gem','Holo','Quack'],
-      'Ironmouse':['Cube','Gold','Gummy','Galaxy','Gem','Holo','Quack'], 'Llama':['Cube','Holo','Quack'], 'Peely':['Cube','Gem','Quack']
+      'Ironmouse':['Cube','Gold','Gummy','Galaxy','Gem','Holo','Quack'], "Lootin' Llama":['Cube','Holo','Quack'], 'Peeky Peely':['Cube','Gem','Quack']
     };
-    const applyUnavailable = rows => rows.map(([name, ...values]) => { (unavailable[name] || []).forEach(type => values[types.indexOf(type)] = 'N/A'); return [name, ...values]; });
+    const applyUnavailable = rows => rows.map(([name, ...values]) => { (unavailable[name] || []).forEach(type => values[types.indexOf(type)] = 'N/A'); if (name === 'Zero Point' && values[types.indexOf('Quack')] === 'N/A') values[types.indexOf('Quack')] = 0; return [name, ...values]; });
     const blankInventory = applyUnavailable(source.map(([name, ...values]) => [name, ...values.map(value => value === 'N/A' ? 'N/A' : 0)]));
     const renamedSprites = {'Peanut':'Burnt Peanut','Zero':'Zero Point','Llama':"Lootin' Llama",'Peely':'Peeky Peely'};
     const key = 'sprite-inventory-v1', historyKey = 'sprite-inventory-history-v1'; let inventory = JSON.parse(localStorage.getItem(key) || 'null') || structuredClone(blankInventory); inventory = applyUnavailable(inventory.map(row => [renamedSprites[row[0]] || row[0], ...row.slice(1)])).map(row => row.map(value => value === 'MAX' || value === 'Mastered' ? 'M' : value)); let undoStack = JSON.parse(localStorage.getItem(historyKey) || '[]');
